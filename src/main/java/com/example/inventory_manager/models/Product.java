@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * class Product.java
  */
 public class Product {
-    private ObservableList<Part> associatedParts =  FXCollections.observableList(new ArrayList<>());;
+    final private ObservableList<Part> associatedParts =  FXCollections.observableList(new ArrayList<>());
     private int id;
     private String name;
     private double price;
