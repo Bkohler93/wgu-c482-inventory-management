@@ -7,14 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * class Inventory.java
+ * @author Brett Kohler
  */
 public class Inventory {
     final private static ObservableList<Part> allParts = FXCollections.observableList(new ArrayList<>());
     final private static ObservableList<Product> allProducts = FXCollections.observableList(new ArrayList<>());
 
     /**
-     * method addPart
      * @param newPart part to add
      */
     public static void addPart(Part newPart) {
@@ -22,7 +21,6 @@ public class Inventory {
     }
 
     /**
-     * method addProduct
      * @param newProduct product to add
      */
     public static void addProduct(Product newProduct) {
@@ -30,7 +28,6 @@ public class Inventory {
     }
 
     /**
-     * method lookupPart
      * @param partId id of part to look up
      * @return the matching part or null
      */
@@ -42,7 +39,6 @@ public class Inventory {
     }
 
     /**
-     * method lookupProduct
      * @param productId id of product to lookup
      * @return the matching product or null
      */
@@ -54,7 +50,6 @@ public class Inventory {
     }
 
     /**
-     * method lookupPart
      * @param partName part name to lookup
      * @return list of parts matching the name
      */
@@ -69,7 +64,6 @@ public class Inventory {
     }
 
     /**
-     * method lookupProduct
      * @param productName product name to look up
      * @return list of products matching product name
      */
@@ -84,21 +78,18 @@ public class Inventory {
     }
 
     /**
-     * method updatePart
      * @param index index of part to update
      * @param selectedPart Part object to update old index
      */
     public static void updatePart(int index, Part selectedPart) { allParts.add(index, selectedPart); }
 
     /**
-     * method updateProduct
      * @param index index of product to update
      * @param newProduct Product object to insert
      */
     public static void updateProduct(int index, Product newProduct) { allProducts.add(index, newProduct); }
 
     /**
-     * method deletePart
      * @param selectedPart part to delete
      * @return true if part was deleted or false if not found
      */
@@ -111,7 +102,6 @@ public class Inventory {
     }
 
     /**
-     * method deleteProduct
      * @param selectedProduct product to delete
      * @return true if product was deleted or false if not found
      */
@@ -124,15 +114,20 @@ public class Inventory {
     }
 
     /**
-     * method getAllParts
      * @return list of all Part instances in allParts list
      */
     public static ObservableList<Part> getAllParts() { return allParts; }
 
     /**
-     * method getAllProducts
      * @return list of all Product instances in allProducts list
      */
     public static ObservableList<Product> getAllProducts() { return allProducts; }
+
+    /**
+     * @return a unique identifier to identify the part
+     */
+    public static int generatePartId() {
+        return allParts.size();
+    }
 }
 

@@ -1,7 +1,7 @@
 package com.example.inventory_manager.models;
 
 /**
- * class Outsourced.java
+ * @author Brett Kohler
  */
 public class Outsourced extends Part {
     private String companyName;
@@ -11,7 +11,6 @@ public class Outsourced extends Part {
     }
 
     /**
-     * method setCompanyName
      * @param companyName the companyName to set
      */
     public void setCompanyName(String companyName) {
@@ -19,7 +18,6 @@ public class Outsourced extends Part {
     }
 
     /**
-     * method getCompanyName
      * @return the companyName
      */
     public String getCompanyName() {

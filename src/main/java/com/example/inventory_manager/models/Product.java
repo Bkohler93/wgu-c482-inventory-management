@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 
 /**
- * class Product.java
+ * @author Brett Kohler
  */
 public class Product {
     final private ObservableList<Part> associatedParts =  FXCollections.observableList(new ArrayList<>());
@@ -26,79 +26,66 @@ public class Product {
     }
 
     /**
-     * method setId
      * @param id the id to set
      */
     public void setId(int id) { this.id = id; }
 
     /**
-     * method setName
      * @param name the name to set
      */
     public void setName(String name) { this.name = name; }
 
     /**
-     * method setPrice
      * @param price the price to set
      */
     public void setPrice(double price) { this.price = price; }
 
     /**
-     * method setStock
      * @param stock the stock to set
      */
     public void setStock(int stock) { this.stock = stock; }
 
     /**
-     * method setMin
      * @param min the min to set
      */
     public void setMin(int min) { this.min = min;}
 
     /**
-     * method setMax
      * @param max the max to set
      */
     public void setMax(int max) { this.max = max;}
 
     /**
-     * method getId
      * @return the id
      */
     public int getId() { return this.id; }
 
     /**
-     * method getName
      * @return the name
      */
     public String getName() { return this.name;}
 
     /**
-     * method getPrice
      * @return the price
      */
     public double getPrice() { return this.price; }
 
     /**
-     * method getStock
      * @return the stock
      */
     public int getStock() { return this.stock;}
 
     /**
-     * method getMin
      * @return the min
      */
     public int getMin() { return this.min;}
 
     /**
-     * method getMax
      * @return the max
      */
     public int getMax() {return this.max;}
 
     /**
-     * method addAssociatedPart
      * @param part the part to add
      */
     public void addAssociatedPart(Part part) {
@@ -106,7 +93,6 @@ public class Product {
     }
 
     /**
-     * method deleteAssociatedPart
      * @param selectedAssociatedPart the part to delete from associatedParts
      * @return boolean true if part was deleted, false otherwise
      */
@@ -119,7 +105,6 @@ public class Product {
     }
 
     /**
-     * method getAllAssociatedParts
      * @return ObservableList<Part> the associated parts
      */
     public ObservableList<Part> getAllAssociatedParts() {

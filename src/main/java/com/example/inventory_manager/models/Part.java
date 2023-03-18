@@ -1,7 +1,6 @@
 package com.example.inventory_manager.models;
 
 /**
- * class Part.java
  * @author Brett Kohler
  */
 public abstract class Part {

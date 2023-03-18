@@ -1,7 +1,7 @@
 package com.example.inventory_manager.models;
 
 /**
- * class InHouse.java
+ * @author Brett Kohler
  */
 public class InHouse extends Part {
     private int machineId;
@@ -11,7 +11,6 @@ public class InHouse extends Part {
     }
 
     /**
-     * method setMachineId
      * @param machineId the machineId to set
      */
     public void setMachineId(int machineId) {
@@ -19,7 +18,6 @@ public class InHouse extends Part {
     }
 
     /**
-     * method getMachineId
      * @return the machineId
      */
     public int getMachineId() {
