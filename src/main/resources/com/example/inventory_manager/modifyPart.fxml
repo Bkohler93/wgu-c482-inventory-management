@@ -25,12 +25,12 @@
                <Font name="System Bold" size="13.0"/>
             </font>
          </Text>
-         <RadioButton mnemonicParsing="false" text="In-House">
+         <RadioButton fx:id="inHouseRadBtn" mnemonicParsing="false" text="In-House" onAction="#onActionSourceRadBtn">
             <HBox.margin>
                <Insets left="10.0"/>
             </HBox.margin>
          </RadioButton>
-         <RadioButton mnemonicParsing="false" text="Outsourced">
+         <RadioButton fx:id="outsourcedRadBtn" mnemonicParsing="false" text="Outsourced" onAction="#onActionSourceRadBtn">
             <padding>
                <Insets left="50.0"/>
             </padding>
@@ -39,7 +39,7 @@
       <VBox spacing="5.0">
          <HBox alignment="CENTER_LEFT">
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID" wrappingWidth="80.0"/>
-            <TextField promptText="Auto-gen disabled">
+            <TextField fx:id="idTextField" promptText="Auto-gen disabled">
                <font>
                   <Font name="System Italic" size="13.0"/>
                </font>
@@ -47,7 +47,7 @@
          </HBox>
          <HBox alignment="CENTER_LEFT">
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" wrappingWidth="80.0"/>
-            <TextField>
+            <TextField fx:id="nameTextField">
                <font>
                   <Font name="System Italic" size="13.0"/>
                </font>
@@ -55,7 +55,7 @@
          </HBox>
          <HBox alignment="CENTER_LEFT">
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Inv" wrappingWidth="80.0"/>
-            <TextField>
+            <TextField fx:id="invTextField">
                <font>
                   <Font name="System Italic" size="13.0"/>
                </font>
@@ -63,7 +63,7 @@
          </HBox>
          <HBox alignment="CENTER_LEFT">
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price/Cost" wrappingWidth="80.0"/>
-            <TextField>
+            <TextField fx:id="priceTextField">
                <font>
                   <Font name="System Italic" size="13.0"/>
                </font>
@@ -71,7 +71,7 @@
          </HBox>
          <HBox alignment="CENTER_LEFT">
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Max" wrappingWidth="80.0"/>
-            <TextField>
+            <TextField fx:id="maxTextField">
                <font>
                   <Font name="System Italic" size="13.0"/>
                </font>
@@ -81,15 +81,15 @@
                   <Insets left="20.0" right="20.0"/>
                </HBox.margin>
             </Text>
-            <TextField>
+            <TextField fx:id="minTextField">
                <font>
                   <Font name="System Italic" size="13.0"/>
                </font>
             </TextField>
          </HBox>
          <HBox alignment="CENTER_LEFT">
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Machine ID" wrappingWidth="80.0"/>
-            <TextField>
+            <Text fx:id="sourceTextLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Machine ID" wrappingWidth="80.0"/>
+            <TextField fx:id="sourceTextField">
                <font>
                   <Font name="System Italic" size="13.0"/>
                </font>
@@ -103,8 +103,8 @@
          <VBox.margin>
             <Insets/>
          </VBox.margin>
-         <Button mnemonicParsing="false" text="Save"/>
-         <Button mnemonicParsing="false" text="Cancel"/>
+         <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#onActionSaveBtn" text="Save"/>
+         <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#onActionCancelBtn" text="Cancel"/>
       </HBox>
    </VBox>
 </AnchorPane>

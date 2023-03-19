@@ -1,10 +1,15 @@
 package com.example.inventory_manager.controllers;
 
+import com.example.inventory_manager.App;
+import com.example.inventory_manager.FxHelpers;
 import com.example.inventory_manager.models.Inventory;
 import com.example.inventory_manager.models.Part;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -14,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -69,10 +75,21 @@ public class MainController implements Initializable {
      */
     @FXML
     protected void onActionModifyPartBtn(ActionEvent event) throws IOException {
-        System.out.println("=== Pressed modify part button");
+        Part partToSend = partTableView.getSelectionModel().getSelectedItem();
 
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        FxHelpers.navigateTo("modifyPart.fxml", stage);
+        if (!Objects.isNull(partToSend)) {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(App.class.getResource("modifyPart.fxml"));
+            loader.load();
+
+            ModifyPartController modifyPartController = loader.getController();
+            modifyPartController.sendPart(partTableView.getSelectionModel().getSelectedItem());
+
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            Parent scene = loader.getRoot();
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
     }
 
     /**
@@ -110,9 +127,14 @@ public class MainController implements Initializable {
      */
     @FXML
     protected void onActionModifyProductBtn(ActionEvent event) throws IOException {
-        System.out.println("=== Pressed modify product button");
+//        FXMLLoader loader = new FXMLLoader();
+//        loader.setLocation(getClass().getResource("modifyProduct.fxml"));
+//        loader.load();
+//
+//        Modify
 
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+
         FxHelpers.navigateTo("modifyProduct.fxml", stage);
     }
 

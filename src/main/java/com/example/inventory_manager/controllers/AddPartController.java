@@ -1,5 +1,6 @@
 package com.example.inventory_manager.controllers;
 
+import com.example.inventory_manager.FxHelpers;
 import com.example.inventory_manager.models.InHouse;
 import com.example.inventory_manager.models.Inventory;
 import com.example.inventory_manager.models.Outsourced;
@@ -16,6 +17,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static com.example.inventory_manager.Constants.IN_HOUSE_LABEL;
+import static com.example.inventory_manager.Constants.OUTSOURCED_LABEL;
 
 /**
  * @author Brett Kohler
@@ -49,8 +53,7 @@ public class AddPartController implements Initializable {
     private Text inHouseOutsourcedLabel;
 
     private Stage stage;
-    final private String IN_HOUSE_LABEL = "Machine ID";
-    final private String OUTSOURCED_LABEL = "Company Name";
+
 
     /**
      * @param event event populated when user taps on either 'In-House' or 'Outsourced' radio buttons

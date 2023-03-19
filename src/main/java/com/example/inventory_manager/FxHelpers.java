@@ -1,6 +1,5 @@
-package com.example.inventory_manager.controllers;
+package com.example.inventory_manager;
 
-import com.example.inventory_manager.App;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

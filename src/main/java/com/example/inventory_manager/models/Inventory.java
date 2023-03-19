@@ -81,7 +81,10 @@ public class Inventory {
      * @param index index of part to update
      * @param selectedPart Part object to update old index
      */
-    public static void updatePart(int index, Part selectedPart) { allParts.add(index, selectedPart); }
+    public static void updatePart(int index, Part selectedPart) {
+        allParts.remove(index);
+        allParts.add(index, selectedPart);
+    }
 
     /**
      * @param index index of product to update
@@ -128,6 +131,21 @@ public class Inventory {
      */
     public static int generatePartId() {
         return allParts.size();
+    }
+
+    /**
+     * places dummy data into tables
+     */
+    public static void loadInitialData() {
+        addPart(new Outsourced(generatePartId(), "wheel", 3.49, 10, 2, 20, "Peter's Parts"));
+        addPart(new Outsourced(generatePartId(), "screw", 0.79, 2000, 100, 10000, "Peter's Parts"));
+        addPart(new Outsourced(generatePartId(), "ball-bearing", 3.29, 340, 100, 1000, "Peter's Parts"));
+        addPart(new Outsourced(generatePartId(), "rubber pad", 6.20, 46, 10, 100, "Textiles R Us"));
+        addPart(new InHouse(generatePartId(), "drill bit", 1.20, 37, 10, 100, 46));
+    }
+
+    public static void deletePartAtIndex(int partId) {
+        allParts.remove(partId);
     }
 }
 

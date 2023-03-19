@@ -1,5 +1,6 @@
 package com.example.inventory_manager.controllers;
 
+import com.example.inventory_manager.FxHelpers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,8 +12,6 @@ import java.io.IOException;
  * @author Brett Kohler
  */
 public class AddProductController {
-    private Stage stage;
-
     @FXML
     private Button cancelBtn;
 
@@ -23,7 +22,7 @@ public class AddProductController {
      */
     @FXML
     protected void onActionCancelBtn(ActionEvent event) throws IOException {
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         FxHelpers.navigateTo("main.fxml", stage);
     }
 }
