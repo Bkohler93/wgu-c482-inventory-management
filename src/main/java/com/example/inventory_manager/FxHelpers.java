@@ -11,6 +11,7 @@ import java.util.Objects;
 /**
  * @author Brett Kohler
  * Contains helper methods that shorten tasks that use JavaFX API.
+ * RUNTIME ERROR:
  */
 public class FxHelpers {
 

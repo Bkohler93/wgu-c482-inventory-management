@@ -32,7 +32,7 @@
             </Text>
             <HBox alignment="CENTER_LEFT">
                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID" wrappingWidth="50.0"/>
-               <TextField promptText="Auto Gen - Disabled">
+               <TextField fx:id="idTextField">
                   <font>
                      <Font name="System Italic" size="13.0"/>
                   </font>
@@ -40,61 +40,61 @@
             </HBox>
             <HBox alignment="CENTER_LEFT">
                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" wrappingWidth="50.0"/>
-               <TextField/>
+               <TextField fx:id="nameTextField"/>
             </HBox>
             <HBox alignment="CENTER_LEFT">
                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Inv" wrappingWidth="50.0"/>
-               <TextField prefWidth="80.0"/>
+               <TextField fx:id="invTextField" prefWidth="80.0"/>
             </HBox>
             <HBox alignment="CENTER_LEFT">
                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price" wrappingWidth="50.0"/>
-               <TextField prefWidth="80.0"/>
+               <TextField fx:id="priceTextField" prefWidth="80.0"/>
             </HBox>
             <HBox alignment="CENTER_LEFT">
                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Max" wrappingWidth="50.0"/>
-               <TextField prefWidth="80.0"/>
+               <TextField fx:id="maxTextField" prefWidth="80.0"/>
                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Min" wrappingWidth="40.0">
                   <HBox.margin>
                      <Insets left="20.0"/>
                   </HBox.margin>
                </Text>
-               <TextField prefWidth="80.0"/>
+               <TextField fx:id="minTextField" prefWidth="80.0"/>
             </HBox>
          </VBox>
          <VBox alignment="CENTER_RIGHT">
-            <TextField maxWidth="200.0" promptText="Search by Part ID or Name">
+            <TextField fx:id="searchPartTextField" maxWidth="200.0" onAction="#onActionSearchPartTxtFld" promptText="Search by Part ID or Name">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" top="10.0"/>
                </VBox.margin>
             </TextField>
             <StackPane alignment="BOTTOM_CENTER">
-               <TableView prefHeight="200.0">
+               <TableView fx:id="partTableView" prefHeight="200.0">
                   <columns>
-                     <TableColumn prefWidth="75.0" text="Part ID"/>
-                     <TableColumn prefWidth="75.0" text="Part Name"/>
-                     <TableColumn prefWidth="75.0" text="Inventory Level"/>
-                     <TableColumn prefWidth="75.0" text="Price/Cost per Unit"/>
+                     <TableColumn fx:id="partIdCol" prefWidth="75.0" text="Part ID"/>
+                     <TableColumn fx:id="partNameCol" prefWidth="75.0" text="Part Name"/>
+                     <TableColumn fx:id="partInvCol" prefWidth="75.0" text="Inventory Level"/>
+                     <TableColumn fx:id="partPriceCol" prefWidth="75.0" text="Price/Cost per Unit"/>
                   </columns>
                </TableView>
                <ScrollBar/>
             </StackPane>
-            <Button mnemonicParsing="false" text="Add">
+            <Button fx:id="addPartBtn" mnemonicParsing="false" onAction="#onActionAddPartBtn" text="Add">
                <VBox.margin>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
                </VBox.margin>
             </Button>
             <StackPane alignment="BOTTOM_CENTER">
-               <TableView prefHeight="200.0">
+               <TableView fx:id="selectedPartsTableView" prefHeight="200.0">
                   <columns>
-                     <TableColumn prefWidth="75.0" text="Part ID"/>
-                     <TableColumn prefWidth="75.0" text="Part Name"/>
-                     <TableColumn prefWidth="75.0" text="Inventory Level"/>
-                     <TableColumn prefWidth="75.0" text="Price/Cost per Unit"/>
+                     <TableColumn fx:id="selectedPartIdCol" prefWidth="75.0" text="Part ID"/>
+                     <TableColumn fx:id="selectedPartNameCol" prefWidth="75.0" text="Part Name"/>
+                     <TableColumn fx:id="selectedPartInvCol" prefWidth="75.0" text="Inventory Level"/>
+                     <TableColumn fx:id="selectedPartPriceCol" prefWidth="75.0" text="Price/Cost per Unit"/>
                   </columns>
                </TableView>
                <ScrollBar/>
             </StackPane>
-            <Button mnemonicParsing="false" text="Remove Associated Part">
+            <Button fx:id="removeAssociatedPartBtn" mnemonicParsing="false" text="Remove Associated Part" onAction="#onActionRemoveAssociatedPartBtn">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                </VBox.margin>
@@ -103,7 +103,7 @@
                <padding>
                   <Insets right="10.0"/>
                </padding>
-               <Button mnemonicParsing="false" text="Save">
+               <Button fx:id="saveBtn" onAction="#onActionSaveBtn" mnemonicParsing="false" text="Save">
                   <HBox.margin>
                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                   </HBox.margin>

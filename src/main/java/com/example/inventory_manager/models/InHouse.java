@@ -2,6 +2,7 @@ package com.example.inventory_manager.models;
 
 /**
  * @author Brett Kohler
+ * RUNTIME ERRORS: there weren't errors from this class
  */
 public class InHouse extends Part {
     private int machineId;

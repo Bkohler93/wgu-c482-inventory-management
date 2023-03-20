@@ -4,16 +4,15 @@ import com.example.inventory_manager.App;
 import com.example.inventory_manager.FxHelpers;
 import com.example.inventory_manager.models.Inventory;
 import com.example.inventory_manager.models.Part;
+import com.example.inventory_manager.models.Product;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -25,8 +24,28 @@ import java.util.ResourceBundle;
 /**
  * @author Brett Kohler
  * Controls the UI on the main inventory screen
+ * LOGICAL ERROR: After setting up fx:id's and writing code to place parts into the TableView, the program
+ *                  wouldn't display the parts in the table. I used print statements to verify that the Inventory
+ *                  had a populated ObservableList and it did, and the rows in the table would even become selectable
+ *                  by clicking on a row, but none of the data was there. After returning to the webinar, I realized I
+ *                  skipped the step when I needed to set the PropertyValue for each column. After writing the code to do
+ *                  this the table displayed values as planned.
+ * FUTURE ENHANCEMENT:
  */
 public class MainController implements Initializable {
+    public TextField productSearchTextField;
+    @FXML
+    private TextField partSearchTextField;
+    @FXML
+    private TableView<Product> productTableView;
+    @FXML
+    private TableColumn<Product, Integer> productIdCol;
+    @FXML
+    private TableColumn<Product, String> productNameCol;
+    @FXML
+    private TableColumn<Product, Integer> productInvCol;
+    @FXML
+    private TableColumn<Product, Double> productPriceCol;
     @FXML
     private Button exitBtn;
     @FXML
@@ -64,7 +83,6 @@ public class MainController implements Initializable {
      */
     @FXML
     protected void onActionAddPartBtn(ActionEvent event) throws IOException {
-        System.out.println("=== Pressed add part button");
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         FxHelpers.navigateTo("addPart.fxml", stage);
     }
@@ -96,17 +114,18 @@ public class MainController implements Initializable {
      * @param event the event that resulted from user pressing the 'delete' button in the part pane
      */
     public void onActionDeletePartBtn(ActionEvent event) {
-        System.out.println("=== Pressed delete part button");
+        Part partToDelete = partTableView.getSelectionModel().getSelectedItem();
 
-        /* TODO
-        delete selected part from Parts TableView or displays a descriptive error message in the UI/dialog box
-        if a part is not deleted
-         */
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText("Delete Part Error");
-        alert.setContentText("Part was not deleted. Select a part to delete from the Parts Table.");
-        alert.showAndWait();
+        if (!Objects.isNull(partToDelete)) {
+            Inventory.deletePart(partToDelete);
+            partTableView.setItems(Inventory.getAllParts());
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Delete Part Error");
+            alert.setContentText("Part was not deleted. Select a part to delete from the Parts Table.");
+            alert.showAndWait();
+        }
     }
 
     /**
@@ -115,8 +134,6 @@ public class MainController implements Initializable {
      */
     @FXML
     protected void onActionAddProductBtn(ActionEvent event) throws IOException {
-        System.out.println("=== Pressed add product button");
-
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         FxHelpers.navigateTo("addProduct.fxml", stage);
     }
@@ -127,32 +144,39 @@ public class MainController implements Initializable {
      */
     @FXML
     protected void onActionModifyProductBtn(ActionEvent event) throws IOException {
-//        FXMLLoader loader = new FXMLLoader();
-//        loader.setLocation(getClass().getResource("modifyProduct.fxml"));
-//        loader.load();
-//
-//        Modify
+        Product selectedProduct = (Product) productTableView.getSelectionModel().getSelectedItem();
 
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        if (!Objects.isNull(selectedProduct)) {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(App.class.getResource("modifyProduct.fxml"));
+            loader.load();
 
-        FxHelpers.navigateTo("modifyProduct.fxml", stage);
+            ModifyProductController modifyProductController = loader.getController();
+            modifyProductController.sendProduct((Product) productTableView.getSelectionModel().getSelectedItem());
+
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            Parent scene = loader.getRoot();
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
     }
 
     /**
      * @param event the event that resulted from user pressing the 'delete' button in the product pane
      */
     public void onActionDeleteProductBtn(ActionEvent event) {
-        System.out.println("=== Pressed delete product button");
+        Product productToDelete = (Product) productTableView.getSelectionModel().getSelectedItem();
 
-        /* TODO
-        delete selected product from Products TableView or displays a descriptive error message in the UI/dialog box
-        if a part is not deleted
-         */
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText("Delete Product Error");
-        alert.setContentText("Product was not deleted. Select a product to delete from the Product Table.");
-        alert.showAndWait();
+        if (!Objects.isNull(productToDelete)) {
+            Inventory.deleteProduct(productToDelete);
+            productTableView.setItems(Inventory.getAllProducts());
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Delete Product Error");
+            alert.setContentText("Product was not deleted. Select a product to delete from the Product Table.");
+            alert.showAndWait();
+        }
     }
 
     /**
@@ -176,6 +200,85 @@ public class MainController implements Initializable {
         partCostCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         partInvCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        //TODO fill in Product table with Inventory.allProducts
+
+        productTableView.setItems(Inventory.getAllProducts());
+        productIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        productPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        productInvCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        productNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+    }
+
+    @FXML
+    void onActionPartSearchTextField(ActionEvent event) {
+        ObservableList<Part> partsToView;
+        int searchId;
+        String searchText;
+
+        if (partSearchTextField.getText().isBlank()) {
+            partTableView.setItems(Inventory.getAllParts());
+        } else {
+            try {
+                searchId = Integer.parseInt(partSearchTextField.getText());
+                partsToView = Inventory.getAllParts().filtered(part -> part.getId() == searchId);
+
+                if (partsToView.isEmpty()) { displayPartSearchErrorAlert(); }
+                else { partTableView.getSelectionModel().select(partsToView.get(0)); }
+            } catch (Exception e) {
+                searchText = partSearchTextField.getText().toLowerCase();
+                partsToView = Inventory.getAllParts().filtered(part -> part.getName().toLowerCase().contains(searchText));
+
+                if (partsToView.isEmpty()) { displayPartSearchErrorAlert(); }
+                else if (partsToView.size() == 1) { partTableView.getSelectionModel().select(partsToView.get(0)); }
+                else { partTableView.setItems(partsToView); }
+            }
+        }
+    }
+
+    /**
+     * informs user there was an error searching for a part and waits for user to close alert.
+     */
+    private void displayPartSearchErrorAlert() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Search error");
+        alert.setContentText("No part with that ID or name can be found.");
+        alert.showAndWait();
+    }
+
+    /**
+     * informs user there was an error searching for a product and waits for user to close alert.
+     */
+    private void displayProductSearchErrorAlert() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Search error");
+        alert.setContentText("No product with that ID or name can be found.");
+        alert.showAndWait();
+    }
+
+    @FXML
+    void onActionProductSearchTextField(ActionEvent event) {
+        ObservableList<Product> productsToView;
+        int searchId;
+        String searchText;
+
+        if (productSearchTextField.getText().isBlank()) {
+            productTableView.setItems(Inventory.getAllProducts());
+        } else {
+            try {
+                searchId = Integer.parseInt(productSearchTextField.getText());
+                productsToView = Inventory.getAllProducts().filtered(product -> product.getId() == searchId);
+
+                if (productsToView.isEmpty()) { displayProductSearchErrorAlert(); }
+                else { productTableView.getSelectionModel().select(productsToView.get(0)); }
+            } catch (Exception e) {
+                searchText = productSearchTextField.getText().toLowerCase();
+                productsToView = Inventory.getAllProducts().filtered(product -> product.getName().toLowerCase().contains(searchText));
+
+                if (productsToView.isEmpty()) { displayProductSearchErrorAlert(); }
+                else if (productsToView.size() == 1) { productTableView.getSelectionModel().select(productsToView.get(0)); }
+                else { productTableView.setItems(productsToView); }
+            }
+        }
     }
 }

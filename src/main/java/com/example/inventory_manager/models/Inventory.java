@@ -4,10 +4,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Brett Kohler
+ * LOGICAL ERROR: At first the generateId function only used each list's size() method to get a new id. But once I added
+ *                delete functionality for each list, I realized this method wouldn't work because an item would be deleted
+ *                but the part with the highest id would now already have an id with the same value as if size() were run.
+ *                To fix this, instead of just returning size() for a new id, I decided the method would first iterate through the
+ *                entire list and check to be sure each id (0, 1, 2, 3, 4) was there. If it wasn't that means this id was recently
+ *                deleted, meaning it can now again be used as a unique id.
+ * FUTURE ENHANCEMENT:
  */
 public class Inventory {
     final private static ObservableList<Part> allParts = FXCollections.observableList(new ArrayList<>());
@@ -54,8 +60,7 @@ public class Inventory {
      * @return list of parts matching the name
      */
     public static ObservableList<Part> lookupPart(String partName) {
-        List<Part> matchingParts = new ArrayList<>();
-        ObservableList<Part> matchingPartObservableList = FXCollections.observableList(matchingParts);
+        ObservableList<Part> matchingPartObservableList = FXCollections.observableList(new ArrayList<>());
 
         for (Part part : allParts) {
             if (part.getName().contains(partName)) matchingPartObservableList.add(part);
@@ -68,8 +73,7 @@ public class Inventory {
      * @return list of products matching product name
      */
     public static ObservableList<Product> lookupProduct(String productName) {
-        List<Product> matchingProducts = new ArrayList<>();
-        ObservableList<Product> matchingProductObservableList = FXCollections.observableList(matchingProducts);
+        ObservableList<Product> matchingProductObservableList = FXCollections.observableList(new ArrayList<>());
 
         for (Product product : allProducts) {
             if (product.getName().contains(productName)) matchingProductObservableList.add(product);
@@ -90,7 +94,10 @@ public class Inventory {
      * @param index index of product to update
      * @param newProduct Product object to insert
      */
-    public static void updateProduct(int index, Product newProduct) { allProducts.add(index, newProduct); }
+    public static void updateProduct(int index, Product newProduct) {
+        allProducts.remove(index);
+        allProducts.add(index, newProduct);
+    }
 
     /**
      * @param selectedPart part to delete
@@ -130,7 +137,31 @@ public class Inventory {
      * @return a unique identifier to identify the part
      */
     public static int generatePartId() {
-        return allParts.size();
+       int id = 0;
+
+        for (Part part : allParts) {
+            if (part.getId() != id) {
+                return id;
+            }
+            ++id;
+        }
+       return id; //will only occur for the first id generated
+    }
+
+
+    /**
+     * @return a unique identifier to identify the product.
+     */
+    public static int generateProductId() {
+        int id = 0;
+
+        for (Product product : allProducts) {
+            if (product.getId() != id) {
+                return id;
+            }
+            ++id;
+        }
+        return id; //will only occur for the first id generated
     }
 
     /**
@@ -142,10 +173,11 @@ public class Inventory {
         addPart(new Outsourced(generatePartId(), "ball-bearing", 3.29, 340, 100, 1000, "Peter's Parts"));
         addPart(new Outsourced(generatePartId(), "rubber pad", 6.20, 46, 10, 100, "Textiles R Us"));
         addPart(new InHouse(generatePartId(), "drill bit", 1.20, 37, 10, 100, 46));
-    }
 
-    public static void deletePartAtIndex(int partId) {
-        allParts.remove(partId);
+        Product productOne = new Product(generateProductId(), 1, 10, "Subwoofer", 70.99, 6);
+        productOne.addAssociatedPart(Inventory.lookupPart(0));
+        productOne.addAssociatedPart(Inventory.lookupPart(3));
+        addProduct(productOne);
     }
 }
 

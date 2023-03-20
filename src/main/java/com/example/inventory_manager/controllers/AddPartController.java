@@ -23,6 +23,12 @@ import static com.example.inventory_manager.Constants.OUTSOURCED_LABEL;
 
 /**
  * @author Brett Kohler
+ * LOGICAL ERROR: On initial load, neither the "InHouse" nor "Outsourced" radio buttons were selected, yet the
+ *                input label for if the part was outsourced or inhouse was properly labeled. In order to load the form
+ *                with the correct button being selected, i included the code `inHouseRadioBtn.setSelected(true);` in the
+ *                `initialize()` overloaded method.
+ * FUTURE ENHANCEMENT: Include an option to load in parts from a CSV or other file format. This would allow
+ *                     users to easily upload bulk amounts of parts that may have been saved on another system.
  */
 public class AddPartController implements Initializable {
     @FXML

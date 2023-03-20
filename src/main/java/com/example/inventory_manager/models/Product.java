@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 /**
  * @author Brett Kohler
+ * RUNTIME ERROR: no errors while writing this class code.
  */
 public class Product {
     final private ObservableList<Part> associatedParts =  FXCollections.observableList(new ArrayList<>());

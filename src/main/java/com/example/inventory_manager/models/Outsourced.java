@@ -2,6 +2,7 @@ package com.example.inventory_manager.models;
 
 /**
  * @author Brett Kohler
+ * RUNTIME ERROR: no errors while writing this class code
  */
 public class Outsourced extends Part {
     private String companyName;

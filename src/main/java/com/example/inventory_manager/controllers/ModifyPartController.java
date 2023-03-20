@@ -21,7 +21,10 @@ import java.util.ResourceBundle;
 import static com.example.inventory_manager.Constants.IN_HOUSE_LABEL;
 import static com.example.inventory_manager.Constants.OUTSOURCED_LABEL;
 
-//TODO
+/**
+ * @author Brett Kohler
+ *
+ */
 public class ModifyPartController implements  Initializable {
     public Button saveBtn;
     public Button cancelBtn;
@@ -48,6 +51,11 @@ public class ModifyPartController implements  Initializable {
 
     /**
      * @param part the part being sent to the controller
+     * RUNTIME ERROR: Exception in thread "JavaFX Application Thread" java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+     *             This error occurred when trying to open the modifyPart form with some parts, but not all of them. The issue was happening
+     *             with only the Outsourced products because I was casting all parts as InHouse inside the `sendPart()` method. To fix this
+     *             I checked whether the part was InHouse or Outsourced first, and then proceeded with the code (lines 67-71).
+     * FUTURE ENHANCEMENT:
      */
     public void sendPart(Part part) {
         idTextField.setText(Integer.toString(part.getId()));
