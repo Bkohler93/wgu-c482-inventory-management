@@ -1,0 +1,4 @@
+module:com.example.inventory_manager
+com.example.inventory_manager
+com.example.inventory_manager.controllers
+com.example.inventory_manager.models

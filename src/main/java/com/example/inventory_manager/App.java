@@ -10,7 +10,7 @@ import java.io.IOException;
 
 /**
  * @author Brett Kohler
- * ERROR I SOLVED:
+ * RUNTIME ERROR:
  * Mar 17, 2023 4:34:22 PM javafx.scene.control.cell.PropertyValueFactory getCellDataReflectively
  * WARNING: Can not retrieve property 'id' in PropertyValueFactory: javafx.scene.control.cell.PropertyValueFactory@296ac8ac with provided class type: class com.example.inventory_manager.models.InHouse
  *      -- to solve I went into 'module-info.java' and opened the '...models' package to 'javafx.base'
