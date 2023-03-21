@@ -178,6 +178,9 @@ public class Inventory {
         productOne.addAssociatedPart(Inventory.lookupPart(0));
         productOne.addAssociatedPart(Inventory.lookupPart(3));
         addProduct(productOne);
+
+        Product productNoParts = new Product(generateProductId(), 2, 5, "No Parts", 0.99, 3);
+        addProduct(productNoParts);
     }
 }
 

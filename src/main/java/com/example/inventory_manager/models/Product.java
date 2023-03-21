@@ -111,5 +111,9 @@ public class Product {
     public ObservableList<Part> getAllAssociatedParts() {
         return associatedParts;
     }
+
+    public boolean hasAssociatedParts() {
+        return !getAllAssociatedParts().isEmpty();
+    }
 }
 

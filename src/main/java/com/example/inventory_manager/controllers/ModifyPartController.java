@@ -8,6 +8,7 @@ import com.example.inventory_manager.models.Part;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -134,6 +135,11 @@ public class ModifyPartController implements  Initializable {
             partMin = Integer.parseInt(minTextField.getText());
             partMax = Integer.parseInt(maxTextField.getText());
 
+            if (!FxHelpers.isInvValuesValid(partMin, partMax, partStock)) {
+                displayInputValidationError("Inv field must be between Min and Max. Min must be less than Max. Max must be greater than Min.");
+                return;
+            }
+
             if (sourceTextLabel.getText().equals(OUTSOURCED_LABEL)) {
                 partCompanyName = sourceTextField.getText();
                 newPart = new Outsourced(partId, partName, partPrice, partStock, partMin, partMax, partCompanyName);
@@ -159,11 +165,58 @@ public class ModifyPartController implements  Initializable {
         FxHelpers.navigateTo("main.fxml", stage);
     }
 
+
+
     /**
      * @return true if all fields are valid, false if they are not.
      */
     private boolean areFieldsValid() {
+        try {
+            Integer.parseInt(idTextField.getText());
+        } catch (NumberFormatException e) {
+            displayInputValidationError("ID field needs to be a whole number");
+            return false;
+        }
+        try {
+            Double.parseDouble(priceTextField.getText());
+        } catch (NumberFormatException e) {
+            displayInputValidationError("Price/Cost must be a valid Dollar amount formatted like '0.99'");
+            return false;
+        }
+        try {
+            Integer.parseInt(invTextField.getText());
+        } catch (NumberFormatException e) {
+            displayInputValidationError("Inventory field needs to be a whole number");
+            return false;
+        }
+        try {
+            Integer.parseInt(minTextField.getText());
+            Integer.parseInt(maxTextField.getText());
+        } catch (NumberFormatException e) {
+            displayInputValidationError("Max and Min Inventory fields needs to be a whole number");
+            return false;
+        }
+
+        if (sourceTextLabel.getText().equals(IN_HOUSE_LABEL)) {
+            try {
+                Integer.parseInt(sourceTextField.getText());
+            } catch (NumberFormatException e) {
+                displayInputValidationError("Machine ID field needs to be a whole number");
+                return false;
+            }
+        }
+
         return true;
-        //TODO error checking on input fields
+    }
+
+    /**
+     * informs user there was an error searching for a part and waits for user to close alert.
+     */
+    private void displayInputValidationError(String msg) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Invalid Input(s) in Form");
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 }

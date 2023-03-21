@@ -117,8 +117,10 @@ public class MainController implements Initializable {
         Part partToDelete = partTableView.getSelectionModel().getSelectedItem();
 
         if (!Objects.isNull(partToDelete)) {
-            Inventory.deletePart(partToDelete);
-            partTableView.setItems(Inventory.getAllParts());
+            if (FxHelpers.confirmAction("Delete Alert", "Are you sure you want to delete the selected part?")) {
+                Inventory.deletePart(partToDelete);
+                partTableView.setItems(Inventory.getAllParts());
+            }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -168,14 +170,17 @@ public class MainController implements Initializable {
         Product productToDelete = (Product) productTableView.getSelectionModel().getSelectedItem();
 
         if (!Objects.isNull(productToDelete)) {
-            Inventory.deleteProduct(productToDelete);
-            productTableView.setItems(Inventory.getAllProducts());
+
+            if (productToDelete.hasAssociatedParts()) {
+                displayDeleteProductErrorAlert("Cannot delete product with associated parts.");
+                return;
+            }
+            if (FxHelpers.confirmAction("Delete Alert", "Delete selected product?")) {
+                Inventory.deleteProduct(productToDelete);
+                productTableView.setItems(Inventory.getAllProducts());
+            }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Delete Product Error");
-            alert.setContentText("Product was not deleted. Select a product to delete from the Product Table.");
-            alert.showAndWait();
+            displayDeleteProductErrorAlert("Product was not deleted. Select a product to delete from the Product Table.");
         }
     }
 
@@ -242,6 +247,14 @@ public class MainController implements Initializable {
         alert.setTitle("Error");
         alert.setHeaderText("Search error");
         alert.setContentText("No part with that ID or name can be found.");
+        alert.showAndWait();
+    }
+
+    private void displayDeleteProductErrorAlert(String msg) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Delete Product Error");
+        alert.setContentText(msg);
         alert.showAndWait();
     }
 

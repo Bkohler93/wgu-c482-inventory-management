@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import static com.example.inventory_manager.Constants.IN_HOUSE_LABEL;
+
 /**
  * @author Brett Kohler
  * RUNTIME ERROR: Exception in thread "JavaFX Application Thread" java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
@@ -170,8 +172,10 @@ public class AddProductController implements Initializable {
 
         associatedParts = selectedPartsTableView.getItems();
 
-        associatedParts.remove(partToRemove);
-        selectedPartsTableView.setItems(FXCollections.observableList(associatedParts));
+        if (FxHelpers.confirmAction("Delete Alert", "Are you sure you want to remove the associated product?")) {
+            associatedParts.remove(partToRemove);
+            selectedPartsTableView.setItems(FXCollections.observableList(associatedParts));
+        }
     }
 
     @FXML
@@ -189,6 +193,11 @@ public class AddProductController implements Initializable {
             productMin = Integer.parseInt(minTextField.getText());
             productMax = Integer.parseInt(maxTextField.getText());
             newProduct = new Product(productId, productMin, productMax, productName, productPrice, productStock);
+
+            if (!FxHelpers.isInvValuesValid(productMin, productMax, productStock)) {
+                displayInputValidationError("Inv field must be between Min and Max. Min must be less than Max. Max must be greater than Min.");
+                return;
+            }
 
             List<Part> associatedParts = selectedPartsTableView.getItems();
 
@@ -209,7 +218,43 @@ public class AddProductController implements Initializable {
      * @return true if valid, false if not.
      */
     private boolean areFieldsValid() {
-        //TODO validation logic
+        try {
+            Integer.parseInt(idTextField.getText());
+        } catch (NumberFormatException e) {
+            displayInputValidationError("ID field needs to be a whole number");
+            return false;
+        }
+        try {
+            Double.parseDouble(priceTextField.getText());
+        } catch (NumberFormatException e) {
+            displayInputValidationError("Price/Cost must be a valid Dollar amount formatted like '0.99'");
+            return false;
+        }
+        try {
+            Integer.parseInt(invTextField.getText());
+        } catch (NumberFormatException e) {
+            displayInputValidationError("Inventory field needs to be a whole number");
+            return false;
+        }
+        try {
+            Integer.parseInt(minTextField.getText());
+            Integer.parseInt(maxTextField.getText());
+        } catch (NumberFormatException e) {
+            displayInputValidationError("Max and Min Inventory fields needs to be a whole number");
+            return false;
+        }
+
         return true;
+    }
+
+    /**
+     * informs user there was an error searching for a part and waits for user to close alert.
+     */
+    private void displayInputValidationError(String msg) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Invalid Input(s) in Form");
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 }
