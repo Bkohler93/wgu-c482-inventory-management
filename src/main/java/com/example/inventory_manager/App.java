@@ -10,6 +10,7 @@ import java.io.IOException;
 
 /**
  * @author Brett Kohler
+ * DOCS FOUND AT /inventory_manager/docs/
  * RUNTIME ERROR:
  * Mar 17, 2023 4:34:22 PM javafx.scene.control.cell.PropertyValueFactory getCellDataReflectively
  * WARNING: Can not retrieve property 'id' in PropertyValueFactory: javafx.scene.control.cell.PropertyValueFactory@296ac8ac with provided class type: class com.example.inventory_manager.models.InHouse
@@ -29,9 +30,5 @@ public class App extends Application {
         stage.setTitle("Inventory Manager");
         stage.setScene(scene);
         stage.show();
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 }

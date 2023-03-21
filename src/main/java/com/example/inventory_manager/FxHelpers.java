@@ -14,32 +14,48 @@ import java.util.Optional;
 /**
  * @author Brett Kohler
  * Contains helper methods that shorten tasks that use JavaFX API.
- * RUNTIME ERROR:
+ * RUNTIME ERROR: no runtime errors, this class was a refactor from methods developed in controllers
  */
 public class FxHelpers {
 
     /**
-     * @param resourceID the file id of the fxml file to change to
-     * @param stage the stage that will display the new scene
-     * @throws IOException FXMLLoader throws an exception if unable to load scene
+     * navigates to a form and sets up redirect on close request back to main form
+     * @param resourceId the name of the fxml file to load
+     * @param stage the stage the main form is the scene for
+     * @throws IOException thrown when resource with resourceId doesn't exist
      */
-    public static void navigateTo(String resourceID, Stage stage) throws IOException {
-        Parent scene = FXMLLoader.load(Objects.requireNonNull(App.class.getResource(resourceID)));
-        stage.setScene(new Scene(scene));
-        stage.show();
+    public static void navigateTo(String resourceId, Stage stage) throws IOException {
+        Parent scene = FXMLLoader.load(Objects.requireNonNull(App.class.getResource(resourceId)));
+        stage.hide();
+        Stage newStage = new Stage();
+        newStage.setScene(new Scene(scene));
+        newStage.setOnCloseRequest(windowEvent -> stage.show());
+        newStage.show();
     }
 
     /**
-     *
-     * @param min minimum integer value
-     * @param max maximum integer value
-     * @param inv current inventory number, needs to be between min/max
-     * @return
+     * open a new form in a new window so that when the new form's window is exited, the user is returned
+     * to the main form.
+     * @param stage TODO
+     * @param loader the FXMLLoader with loaded resource
      */
-    public static boolean isInvValuesValid(int min, int max, int inv) {
-        return max >= inv && min <= inv;
+    public static void navigateToWithData(Stage stage, FXMLLoader loader) {
+        Parent scene = loader.getRoot();
+        stage.hide();
+        Stage newStage = new Stage();
+        newStage.setScene(new Scene(scene));
+        newStage.setOnCloseRequest(windowEvent -> stage.show());
+        newStage.show();
     }
 
+
+
+    /**
+     * Opens an alert dialog and waits for user to confirm or cancel the pending action
+     * @param action describes what action is about to take place
+     * @param msg the question to ask the user
+     * @return true if user confirmed action or false if user cancelled
+     */
     public static boolean confirmAction(String action, String msg) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm");
@@ -47,9 +63,6 @@ public class FxHelpers {
         alert.setContentText(msg);
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            return true;
-        }
-        return false;
+        return result.isPresent() && result.get() == ButtonType.OK;
     }
 }

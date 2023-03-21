@@ -56,11 +56,11 @@
                    </VBox.margin>
                 </TableView>
                 <HBox alignment="CENTER_RIGHT" spacing="10.0">
-                   <Button fx:id="addPartBtn" mnemonicParsing="false" onAction="#onActionAddPartBtn"
+                   <Button  mnemonicParsing="false" onAction="#onActionAddPartBtn"
                            text="Add"/>
-                   <Button fx:id="modifyPartBtn" mnemonicParsing="false" onAction="#onActionModifyPartBtn"
+                   <Button  mnemonicParsing="false" onAction="#onActionModifyPartBtn"
                            text="Modify"/>
-                   <Button fx:id="deletePartBtn" mnemonicParsing="false" onAction="#onActionDeletePartBtn"
+                   <Button  mnemonicParsing="false" onAction="#onActionDeletePartBtn"
                            text="Delete"/>
                 </HBox>
              </VBox>
@@ -100,18 +100,18 @@
                    </VBox.margin>
                 </TableView>
                 <HBox alignment="CENTER_RIGHT" spacing="10.0">
-                   <Button fx:id="addProductBtn" mnemonicParsing="false" onAction="#onActionAddProductBtn"
+                   <Button  mnemonicParsing="false" onAction="#onActionAddProductBtn"
                            text="Add"/>
-                   <Button fx:id="modifyProductBtn" mnemonicParsing="false"
+                   <Button  mnemonicParsing="false"
                            onAction="#onActionModifyProductBtn" text="Modify"/>
-                   <Button fx:id="deleteProductBtn" mnemonicParsing="false"
+                   <Button  mnemonicParsing="false"
                            onAction="#onActionDeleteProductBtn" text="Delete"/>
                 </HBox>
              </VBox>
           </Pane>
        </HBox>
        <HBox alignment="CENTER_RIGHT">
-          <Button fx:id="exitBtn" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#onActionExitBtn"
+          <Button  alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#onActionExitBtn"
                   text="Exit"/>
        </HBox>
         <padding>

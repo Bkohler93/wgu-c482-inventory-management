@@ -13,7 +13,8 @@ import java.util.ArrayList;
  *                To fix this, instead of just returning size() for a new id, I decided the method would first iterate through the
  *                entire list and check to be sure each id (0, 1, 2, 3, 4) was there. If it wasn't that means this id was recently
  *                deleted, meaning it can now again be used as a unique id.
- * FUTURE ENHANCEMENT:
+ * FUTURE ENHANCEMENT: Create methods to sort the list of parts/products based on their attributes. Once an inventory gets too big,
+ *                      it would be difficult to look at the lists, so advanced sorting would be beneficial for users.
  */
 public class Inventory {
     final private static ObservableList<Part> allParts = FXCollections.observableList(new ArrayList<>());
@@ -63,7 +64,7 @@ public class Inventory {
         ObservableList<Part> matchingPartObservableList = FXCollections.observableList(new ArrayList<>());
 
         for (Part part : allParts) {
-            if (part.getName().contains(partName)) matchingPartObservableList.add(part);
+            if (part.getName().toLowerCase().contains(partName)) matchingPartObservableList.add(part);
         }
         return matchingPartObservableList;
     }
@@ -76,7 +77,7 @@ public class Inventory {
         ObservableList<Product> matchingProductObservableList = FXCollections.observableList(new ArrayList<>());
 
         for (Product product : allProducts) {
-            if (product.getName().contains(productName)) matchingProductObservableList.add(product);
+            if (product.getName().toLowerCase().contains(productName)) matchingProductObservableList.add(product);
         }
         return matchingProductObservableList;
     }
@@ -181,6 +182,43 @@ public class Inventory {
 
         Product productNoParts = new Product(generateProductId(), 2, 5, "No Parts", 0.99, 3);
         addProduct(productNoParts);
+    }
+
+    /**
+     * checks if min, max, and inv are all valid. To be valid, inv must be between max and min
+     * @param min minimum integer value
+     * @param max maximum integer value
+     * @param inv current inventory number, needs to be between min/max
+     * @return true if values are valid, false if they are not.
+     */
+    public static boolean isInvValuesInvalid(int min, int max, int inv) {
+        return !(max >= inv && min <= inv);
+    }
+
+    /**
+     * @param partId id of part to find index for
+     * @return index of part or -1 if no matching index found
+     */
+    public static int getPartIndex(int partId) {
+        for (int i = 0; i < allParts.size(); i++) {
+            if (allParts.get(i).getId() == partId) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * @param productId id of product to find index for
+     * @return index of product or -1 if no matching index found
+     */
+    public static int getProductIndex(int productId) {
+        for (int i = 0; i < allProducts.size(); i++) {
+            if (allProducts.get(i).getId() == productId) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
 

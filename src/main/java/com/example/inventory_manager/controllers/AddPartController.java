@@ -23,6 +23,7 @@ import static com.example.inventory_manager.Constants.IN_HOUSE_LABEL;
 import static com.example.inventory_manager.Constants.OUTSOURCED_LABEL;
 
 /**
+ * Adds functionality to the UI so the user can manipulate fields and buttons in the Add Part form.
  * @author Brett Kohler
  * LOGICAL ERROR: On initial load, neither the "InHouse" nor "Outsourced" radio buttons were selected, yet the
  *                input label for if the part was outsourced or inhouse was properly labeled. In order to load the form
@@ -32,10 +33,6 @@ import static com.example.inventory_manager.Constants.OUTSOURCED_LABEL;
  *                     users to easily upload bulk amounts of parts that may have been saved on another system.
  */
 public class AddPartController implements Initializable {
-    @FXML
-    private Button saveBtn;
-    @FXML
-    private Button cancelBtn;
     @FXML
     private TextField sourceTextField;
     @FXML
@@ -121,7 +118,7 @@ public class AddPartController implements Initializable {
             partMin = Integer.parseInt(minTextField.getText());
             partMax = Integer.parseInt(maxTextField.getText());
 
-            if (!FxHelpers.isInvValuesValid(partMin, partMax, partStock)) {
+            if (Inventory.isInvValuesInvalid(partMin, partMax, partStock)) {
                 displayInputValidationError("Inv field must be between Min and Max. Min must be less than Max. Max must be greater than Min.");
                 return;
             }
@@ -137,8 +134,6 @@ public class AddPartController implements Initializable {
             Inventory.addPart(newPart);
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             FxHelpers.navigateTo("main.fxml", stage);
-        } else {
-            //TODO notify user there is an error in the form
         }
     }
 

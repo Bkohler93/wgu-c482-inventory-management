@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-import static com.example.inventory_manager.Constants.IN_HOUSE_LABEL;
 
 /**
+ * Adds functionality to the UI so the user can manipulate fields and buttons in the Add Product form.
  * @author Brett Kohler
  * RUNTIME ERROR: Exception in thread "JavaFX Application Thread" java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
  *                 This was caused by a typo in addProduct.fxml where the controller being linked to the form was spelled incorrectly
@@ -29,7 +29,6 @@ import static com.example.inventory_manager.Constants.IN_HOUSE_LABEL;
  *                      on another system.
  */
 public class AddProductController implements Initializable {
-    public Button saveBtn;
     @FXML
     private TextField nameTextField;
     @FXML
@@ -40,10 +39,6 @@ public class AddProductController implements Initializable {
     private TextField maxTextField;
     @FXML
     private TextField minTextField;
-    @FXML
-    private Button removeAssociatedPartBtn;
-    @FXML
-    private Button addPartBtn;
     @FXML
     private TableView<Part> selectedPartsTableView;
     @FXML
@@ -68,8 +63,6 @@ public class AddProductController implements Initializable {
     private TableColumn<Part, Double> partPriceCol;
     @FXML
     private TextField idTextField;
-    @FXML
-    private Button cancelBtn;
 
     /**
      * @param event created by JavaFX when user taps on 'cancel' button.
@@ -194,7 +187,7 @@ public class AddProductController implements Initializable {
             productMax = Integer.parseInt(maxTextField.getText());
             newProduct = new Product(productId, productMin, productMax, productName, productPrice, productStock);
 
-            if (!FxHelpers.isInvValuesValid(productMin, productMax, productStock)) {
+            if (Inventory.isInvValuesInvalid(productMin, productMax, productStock)) {
                 displayInputValidationError("Inv field must be between Min and Max. Min must be less than Max. Max must be greater than Min.");
                 return;
             }
@@ -208,8 +201,6 @@ public class AddProductController implements Initializable {
             Inventory.addProduct(newProduct);
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             FxHelpers.navigateTo("main.fxml", stage);
-        } else {
-            //TODO notify user there is an error in the form
         }
     }
 

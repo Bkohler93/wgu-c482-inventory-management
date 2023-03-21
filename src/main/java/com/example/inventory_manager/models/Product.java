@@ -17,6 +17,15 @@ public class Product {
     private int stock;
     private int min;
     private int max;
+
+    /**
+     * @param id id of product
+     * @param min minimum number of product in stock
+     * @param max maximum number of product in stock
+     * @param name name of product
+     * @param price price of product in dollars and cents
+     * @param stock amount of product in stock
+     */
     public Product(int id, int min, int max, String name, double price, int stock) {
         this.id = id;
         this.name = name;
@@ -106,12 +115,15 @@ public class Product {
     }
 
     /**
-     * @return ObservableList<Part> the associated parts
+     * @return ObservableList(Part) the associated parts
      */
     public ObservableList<Part> getAllAssociatedParts() {
         return associatedParts;
     }
 
+    /**
+     * @return true if associated parts list is not empty, false if it is
+     */
     public boolean hasAssociatedParts() {
         return !getAllAssociatedParts().isEmpty();
     }

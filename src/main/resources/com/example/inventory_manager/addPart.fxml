@@ -107,8 +107,8 @@
          <VBox.margin>
             <Insets/>
          </VBox.margin>
-         <Button fx:id="saveBtn" mnemonicParsing="false" text="Save" onAction="#onActionSaveBtn"/>
-         <Button fx:id="cancelBtn" mnemonicParsing="false" text="Cancel" onAction="#onActionCancel"/>
+         <Button mnemonicParsing="false" text="Save" onAction="#onActionSaveBtn"/>
+         <Button mnemonicParsing="false" text="Cancel" onAction="#onActionCancel"/>
       </HBox>
    </VBox>
 </AnchorPane>

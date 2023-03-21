@@ -78,7 +78,7 @@
                </TableView>
                <ScrollBar/>
             </StackPane>
-            <Button fx:id="addPartBtn" mnemonicParsing="false" onAction="#onActionAddPartBtn" text="Add">
+            <Button mnemonicParsing="false" onAction="#onActionAddPartBtn" text="Add">
                <VBox.margin>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
                </VBox.margin>
@@ -94,7 +94,7 @@
                </TableView>
                <ScrollBar/>
             </StackPane>
-            <Button fx:id="removeAssociatedPartBtn" mnemonicParsing="false" text="Remove Associated Part" onAction="#onActionRemoveAssociatedPartBtn">
+            <Button mnemonicParsing="false" text="Remove Associated Part" onAction="#onActionRemoveAssociatedPartBtn">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                </VBox.margin>
@@ -103,12 +103,12 @@
                <padding>
                   <Insets right="10.0"/>
                </padding>
-               <Button fx:id="saveBtn" onAction="#onActionSaveBtn" mnemonicParsing="false" text="Save">
+               <Button onAction="#onActionSaveBtn" mnemonicParsing="false" text="Save">
                   <HBox.margin>
                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                   </HBox.margin>
                </Button>
-               <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#onActionCancelBtn"
+               <Button mnemonicParsing="false" onAction="#onActionCancelBtn"
                        text="Cancel">
                   <HBox.margin>
                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>

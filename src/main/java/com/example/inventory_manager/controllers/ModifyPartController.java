@@ -1,6 +1,5 @@
 package com.example.inventory_manager.controllers;
 
-import com.example.inventory_manager.FxHelpers;
 import com.example.inventory_manager.models.InHouse;
 import com.example.inventory_manager.models.Inventory;
 import com.example.inventory_manager.models.Outsourced;
@@ -8,12 +7,14 @@ import com.example.inventory_manager.models.Part;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,12 +24,14 @@ import static com.example.inventory_manager.Constants.IN_HOUSE_LABEL;
 import static com.example.inventory_manager.Constants.OUTSOURCED_LABEL;
 
 /**
+ * Adds functionality to the UI so the user can manipulate fields and buttons in the Modify Part form.
  * @author Brett Kohler
- *
+ * RUNTIME ERROR: Exception in thread "JavaFX Application Thread" java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+ * Caused by: java.lang.ClassCastException: class javafx.event.Event cannot be cast to class javafx.stage.WindowEvent (javafx.event.Event is in module javafx.base of loader 'app'; javafx.stage.WindowEvent is in module javafx.graphics of loader 'app')
+ * FUTURE ENHANCEMENT: Add another attribute to the Part class (a blob datatype, or byte array, to store a bit-encoded
+ *                      image for each part. This way there is a visual description of each part as well.
  */
 public class ModifyPartController implements  Initializable {
-    public Button saveBtn;
-    public Button cancelBtn;
     @FXML
     private Text sourceTextLabel;
     @FXML
@@ -51,12 +54,8 @@ public class ModifyPartController implements  Initializable {
     private TextField sourceTextField;
 
     /**
-     * @param part the part being sent to the controller
-     * RUNTIME ERROR: Exception in thread "JavaFX Application Thread" java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
-     *             This error occurred when trying to open the modifyPart form with some parts, but not all of them. The issue was happening
-     *             with only the Outsourced products because I was casting all parts as InHouse inside the `sendPart()` method. To fix this
-     *             I checked whether the part was InHouse or Outsourced first, and then proceeded with the code (lines 67-71).
-     * FUTURE ENHANCEMENT:
+     * sends a part to ModifyPartController and sets fields of modify part form to match the part's attributes
+     * @param part part being sent to controller
      */
     public void sendPart(Part part) {
         idTextField.setText(Integer.toString(part.getId()));
@@ -121,7 +120,7 @@ public class ModifyPartController implements  Initializable {
     /**
      * @param actionEvent event propagated from user tapping on 'save' button
      */
-    public void onActionSaveBtn(ActionEvent actionEvent) throws IOException {
+    public void onActionSaveBtn(ActionEvent actionEvent) {
         String partName, partCompanyName;
         double partPrice;
         int partId, partStock, partMin, partMax, machineId;
@@ -135,7 +134,7 @@ public class ModifyPartController implements  Initializable {
             partMin = Integer.parseInt(minTextField.getText());
             partMax = Integer.parseInt(maxTextField.getText());
 
-            if (!FxHelpers.isInvValuesValid(partMin, partMax, partStock)) {
+            if (Inventory.isInvValuesInvalid(partMin, partMax, partStock)) {
                 displayInputValidationError("Inv field must be between Min and Max. Min must be less than Max. Max must be greater than Min.");
                 return;
             }
@@ -147,12 +146,10 @@ public class ModifyPartController implements  Initializable {
                 machineId = Integer.parseInt(sourceTextField.getText());
                 newPart = new InHouse(partId, partName, partPrice, partStock, partMin, partMax, machineId);
             }
-
-            Inventory.updatePart(partId, newPart);
+            int indexToChange = Inventory.getPartIndex(partId);
+            Inventory.updatePart(indexToChange, newPart);
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-            FxHelpers.navigateTo("main.fxml", stage);
-        } else {
-            //TODO notify user there is an error in the form
+            stage.fireEvent(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
         }
     }
 
@@ -161,8 +158,8 @@ public class ModifyPartController implements  Initializable {
      * @throws IOException thrown by FxHelpers.navigateTo
      */
     public void onActionCancelBtn(ActionEvent actionEvent) throws IOException {
-        Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        FxHelpers.navigateTo("main.fxml", stage);
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.fireEvent(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
     }
 
 
